@@ -101,7 +101,7 @@ export const MOCK_COURSES = [
     duration: "22h 15m",
     lessonsCount: 52,
     level: "Advanced",
-    thumbnail: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=800&q=80",
     instructor: {
       name: "Dr. Elena Rostova",
       role: "AI Research Scientist & Engineer",
