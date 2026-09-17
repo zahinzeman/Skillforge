@@ -101,7 +101,7 @@ export const MOCK_COURSES = [
     duration: "22h 15m",
     lessonsCount: 52,
     level: "Advanced",
-    thumbnail: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=800&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
     instructor: {
       name: "Dr. Elena Rostova",
       role: "AI Research Scientist & Engineer",
@@ -184,7 +184,7 @@ export const MOCK_COURSES = [
     duration: "9h 45m",
     lessonsCount: 26,
     level: "Beginner",
-    thumbnail: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=800&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80",
     instructor: {
       name: "Marcus Vance",
       role: "Principal Product Designer",
@@ -270,7 +270,7 @@ export const MOCK_COURSES = [
     duration: "11h 20m",
     lessonsCount: 30,
     level: "Beginner",
-    thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=800&q=80",
     instructor: {
       name: "David K. Vance",
       role: "Data Scientist",
@@ -306,7 +306,7 @@ export const MOCK_COURSES = [
     duration: "8h 45m",
     lessonsCount: 22,
     level: "Intermediate",
-    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80",
     instructor: {
       name: "Jessica Taylor",
       role: "VP of Product",

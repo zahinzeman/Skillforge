@@ -34,7 +34,15 @@ export const CourseDetailModal = ({ onSelectCourse }) => {
 
         {/* Header visual */}
         <div style={{ position: 'relative', borderRadius: 'var(--radius-md)', overflow: 'hidden', marginBottom: '24px' }}>
-          <img src={course.thumbnail} alt={course.title} style={{ width: '100%', height: '220px', objectFit: 'cover' }} />
+          <img
+            src={course.thumbnail}
+            alt={course.title}
+            style={{ width: '100%', height: '220px', objectFit: 'cover' }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80';
+            }}
+          />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 20%, rgba(15, 21, 35, 0.95) 100%)' }} />
           <div style={{ position: 'absolute', bottom: '16px', left: '20px', right: '20px' }}>
             <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>

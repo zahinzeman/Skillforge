@@ -31,7 +31,15 @@ export const CourseCard = ({ course, onSelectCourse }) => {
     >
       {/* Thumbnail */}
       <div className="course-thumbnail-wrap">
-        <img src={course.thumbnail} alt={course.title} className="course-thumbnail" />
+        <img
+          src={course.thumbnail}
+          alt={course.title}
+          className="course-thumbnail"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80';
+          }}
+        />
         <div className="course-badge-top">
           {isFree ? (
             <span className="badge badge-free">FREE COURSE</span>
