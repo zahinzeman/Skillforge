@@ -9,7 +9,7 @@ import { CheckoutModal } from './components/CheckoutModal';
 import { CertificateModal } from './components/CertificateModal';
 import { CoursePlayer } from './components/CoursePlayer';
 import { Dashboard } from './components/Dashboard';
-import { Sparkles, Crown, BookOpen, Lock, UserPlus, LogIn, ArrowRight } from 'lucide-react';
+import { Sparkles, Crown, BookOpen, ShieldCheck, Zap, Star, ArrowRight } from 'lucide-react';
 
 function MainApp() {
   const { user, setActiveModal } = useAuth();
@@ -45,12 +45,6 @@ function MainApp() {
     setActiveTab('player');
   };
 
-  const handleRequireAuth = (targetAction = 'register') => {
-    if (!user) {
-      setActiveModal(targetAction);
-    }
-  };
-
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar
@@ -64,13 +58,7 @@ function MainApp() {
           if (tab !== 'player') setActiveCourseForPlayer(null);
         }}
         searchQuery={searchQuery}
-        setSearchQuery={(q) => {
-          if (!user) {
-            setActiveModal('register');
-          } else {
-            setSearchQuery(q);
-          }
-        }}
+        setSearchQuery={setSearchQuery}
       />
 
       <main style={{ flex: 1 }}>
@@ -90,7 +78,7 @@ function MainApp() {
             <section className="hero">
               <div className="container">
                 <div className="badge badge-category" style={{ marginBottom: '16px', gap: '6px' }}>
-                  <Sparkles size={14} color="var(--primary)" /> Account Required to View Catalog
+                  <Sparkles size={14} color="var(--primary)" /> Learn at your own pace
                 </div>
 
                 <h1 className="hero-title">
@@ -98,29 +86,16 @@ function MainApp() {
                 </h1>
 
                 <p className="hero-subtitle">
-                  Create a free account to unlock access to our full library of <strong>free courses</strong> and <strong>premium masterclasses</strong> with real-world projects & certificates.
+                  Explore high-quality <strong>free courses</strong> to get started, or upgrade to <strong>premium masterclasses</strong> with real-world projects and verified completion certificates.
                 </p>
 
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-                  {user ? (
-                    <>
-                      <button className="btn btn-primary btn-lg" onClick={() => setTierFilter('free')}>
-                        <BookOpen size={18} /> Browse Free Courses
-                      </button>
-                      <button className="btn btn-gold btn-lg" onClick={() => setTierFilter('premium')}>
-                        <Crown size={18} /> Explore Premium Tier
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button className="btn btn-primary btn-lg" onClick={() => setActiveModal('register')}>
-                        <UserPlus size={18} /> Sign Up Free to Unlock Catalog
-                      </button>
-                      <button className="btn btn-secondary btn-lg" onClick={() => setActiveModal('login')}>
-                        <LogIn size={18} /> Log In to Account
-                      </button>
-                    </>
-                  )}
+                  <button className="btn btn-primary btn-lg" onClick={() => setTierFilter('free')}>
+                    <BookOpen size={18} /> Browse Free Courses
+                  </button>
+                  <button className="btn btn-gold btn-lg" onClick={() => setTierFilter('premium')}>
+                    <Crown size={18} /> Explore Premium Tier
+                  </button>
                 </div>
 
                 {/* Hero Stats */}
@@ -135,7 +110,7 @@ function MainApp() {
                   </div>
                   <div className="stat-item">
                     <span className="stat-val">100% Free</span>
-                    <span className="stat-lbl">Account Registration</span>
+                    <span className="stat-lbl">Tier Available</span>
                   </div>
                   <div className="stat-item">
                     <span className="stat-val">Verified</span>
@@ -147,131 +122,75 @@ function MainApp() {
 
             {/* Courses Catalog Section */}
             <section className="container" style={{ paddingBottom: '64px' }}>
-              {!user ? (
-                /* Locked Catalog View for Guests */
-                <div
-                  className="glass-panel"
-                  style={{
-                    padding: '64px 32px',
-                    textAlign: 'center',
-                    maxWidth: '720px',
-                    margin: '0 auto',
-                    border: '1px solid rgba(99, 102, 241, 0.4)',
-                    boxShadow: 'var(--shadow-glow)'
-                  }}
-                >
-                  <div
-                    style={{
-                      width: '64px',
-                      height: '64px',
-                      borderRadius: '50%',
-                      background: 'rgba(99, 102, 241, 0.15)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      margin: '0 auto 20px',
-                      color: 'var(--primary)'
-                    }}
+              <div className="controls-bar">
+                {/* Category Pills */}
+                <div className="filter-pills">
+                  {CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      className={`filter-pill ${selectedCategory === cat ? 'active' : ''}`}
+                      onClick={() => setSelectedCategory(cat)}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Free / Premium Tier Filter */}
+                <div style={{ display: 'flex', gap: '6px', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: '30px', border: '1px solid var(--border-color)' }}>
+                  <button
+                    className={`btn btn-sm ${tierFilter === 'all' ? 'btn-primary' : 'btn-secondary'}`}
+                    style={{ borderRadius: '20px', border: 'none' }}
+                    onClick={() => setTierFilter('all')}
                   >
-                    <Lock size={32} />
-                  </div>
+                    All
+                  </button>
+                  <button
+                    className={`btn btn-sm ${tierFilter === 'free' ? 'btn-primary' : 'btn-secondary'}`}
+                    style={{ borderRadius: '20px', border: 'none' }}
+                    onClick={() => setTierFilter('free')}
+                  >
+                    Free
+                  </button>
+                  <button
+                    className={`btn btn-sm ${tierFilter === 'premium' ? 'btn-gold' : 'btn-secondary'}`}
+                    style={{ borderRadius: '20px', border: 'none' }}
+                    onClick={() => setTierFilter('premium')}
+                  >
+                    <Crown size={12} /> Premium
+                  </button>
+                </div>
+              </div>
 
-                  <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', fontWeight: 800, marginBottom: '12px' }}>
-                    Course Catalog Locked
-                  </h2>
-
-                  <p style={{ color: 'var(--text-muted)', fontSize: '1rem', lineHeight: 1.6, marginBottom: '28px' }}>
-                    Please <strong>Sign Up</strong> or <strong>Log In</strong> to view our collection of free and premium interactive courses, lesson plans, and verified completion certificates.
-                  </p>
-
-                  <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap' }}>
-                    <button className="btn btn-primary btn-lg" onClick={() => setActiveModal('register')}>
-                      <UserPlus size={18} /> Create Free Account
-                    </button>
-                    <button className="btn btn-secondary btn-lg" onClick={() => setActiveModal('login')}>
-                      <LogIn size={18} /> Log In
-                    </button>
-                  </div>
-
-                  {/* Quick Demo hint */}
-                  <div style={{ marginTop: '24px', fontSize: '0.825rem', color: 'var(--text-dim)' }}>
-                    💡 <em>Tip: You can use the One-Click Demo buttons inside the login modal to test instantly.</em>
-                  </div>
+              {/* Course Grid */}
+              {filteredCourses.length > 0 ? (
+                <div className="course-grid">
+                  {filteredCourses.map((course) => (
+                    <CourseCard
+                      key={course.id}
+                      course={course}
+                      onSelectCourse={handleSelectCourse}
+                    />
+                  ))}
                 </div>
               ) : (
-                /* Unlocked Catalog View for Logged-In Users */
-                <>
-                  <div className="controls-bar">
-                    {/* Category Pills */}
-                    <div className="filter-pills">
-                      {CATEGORIES.map((cat) => (
-                        <button
-                          key={cat}
-                          className={`filter-pill ${selectedCategory === cat ? 'active' : ''}`}
-                          onClick={() => setSelectedCategory(cat)}
-                        >
-                          {cat}
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* Free / Premium Tier Filter */}
-                    <div style={{ display: 'flex', gap: '6px', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: '30px', border: '1px solid var(--border-color)' }}>
-                      <button
-                        className={`btn btn-sm ${tierFilter === 'all' ? 'btn-primary' : 'btn-secondary'}`}
-                        style={{ borderRadius: '20px', border: 'none' }}
-                        onClick={() => setTierFilter('all')}
-                      >
-                        All
-                      </button>
-                      <button
-                        className={`btn btn-sm ${tierFilter === 'free' ? 'btn-primary' : 'btn-secondary'}`}
-                        style={{ borderRadius: '20px', border: 'none' }}
-                        onClick={() => setTierFilter('free')}
-                      >
-                        Free
-                      </button>
-                      <button
-                        className={`btn btn-sm ${tierFilter === 'premium' ? 'btn-gold' : 'btn-secondary'}`}
-                        style={{ borderRadius: '20px', border: 'none' }}
-                        onClick={() => setTierFilter('premium')}
-                      >
-                        <Crown size={12} /> Premium
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Course Grid */}
-                  {filteredCourses.length > 0 ? (
-                    <div className="course-grid">
-                      {filteredCourses.map((course) => (
-                        <CourseCard
-                          key={course.id}
-                          course={course}
-                          onSelectCourse={handleSelectCourse}
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="glass-panel" style={{ padding: '64px', textAlign: 'center', margin: '40px 0' }}>
-                      <h3>No courses found matching your filter</h3>
-                      <p style={{ color: 'var(--text-muted)', marginTop: '8px' }}>
-                        Try searching for another topic or reset the category filters.
-                      </p>
-                      <button
-                        className="btn btn-secondary btn-sm"
-                        style={{ marginTop: '16px' }}
-                        onClick={() => {
-                          setSelectedCategory('All Courses');
-                          setTierFilter('all');
-                          setSearchQuery('');
-                        }}
-                      >
-                        Reset All Filters
-                      </button>
-                    </div>
-                  )}
-                </>
+                <div className="glass-panel" style={{ padding: '64px', textAlign: 'center', margin: '40px 0' }}>
+                  <h3>No courses found matching your filter</h3>
+                  <p style={{ color: 'var(--text-muted)', marginTop: '8px' }}>
+                    Try searching for another topic or reset the category filters.
+                  </p>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    style={{ marginTop: '16px' }}
+                    onClick={() => {
+                      setSelectedCategory('All Courses');
+                      setTierFilter('all');
+                      setSearchQuery('');
+                    }}
+                  >
+                    Reset All Filters
+                  </button>
+                </div>
               )}
             </section>
           </>
@@ -297,13 +216,15 @@ function MainApp() {
               </div>
             </div>
             <p style={{ color: 'var(--text-dim)', fontSize: '0.85rem' }}>
-              © 2026 SkillForge Inc. All rights reserved. Account registration required.
+              © 2026 SkillForge Inc. All rights reserved. Free & Premium learning platform.
             </p>
           </div>
 
           <div style={{ display: 'flex', gap: '24px', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-            <span style={{ cursor: 'pointer' }} onClick={() => handleRequireAuth('login')}>Log In</span>
-            <span style={{ cursor: 'pointer' }} onClick={() => handleRequireAuth('register')}>Sign Up</span>
+            <span style={{ cursor: 'pointer' }} onClick={() => setTierFilter('free')}>Free Courses</span>
+            <span style={{ cursor: 'pointer' }} onClick={() => setTierFilter('premium')}>Premium Tier</span>
+            <span style={{ cursor: 'pointer' }} onClick={() => setActiveModal('login')}>Log In</span>
+            <span style={{ cursor: 'pointer' }} onClick={() => setActiveModal('register')}>Sign Up</span>
           </div>
         </div>
       </footer>
